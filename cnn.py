@@ -1,11 +1,14 @@
 import numpy as np
 np.random.seed(111)
+
 import keras
 from keras.datasets import mnist
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Flatten
 from keras.layers import Conv2D, MaxPooling2D
 from keras import backend as K
+
+from matplotlib import pyplot as plt
 
 # constants
 batch_size = 128
@@ -14,14 +17,10 @@ epochs = 12
 IMG_WIDTH, IMG_HEIGHT = 28, 28
 
 # split data on train and test datasets
-(x_train, y_train), (x_test, y_test) = mnist.load_data()
+(x_train_origin, y_train_origin), (x_test, y_test) = mnist.load_data()
 
-x_train = x_train[:2000]
-y_train = y_train[:2000]
-
-# show image
-from matplotlib import pyplot as plt
-plt.imshow(x_train[0])
+x_train = x_train_origin[:1000]
+y_train = y_train_origin[:1000]
 
 # prepare dataset item shapes
 if K.image_data_format() == 'channels_first':
@@ -66,15 +65,24 @@ model.compile(loss='categorical_crossentropy',
               optimizer='adam',
               metrics=['accuracy'])
 
+# tensorboard callback
+tb_callback = keras.callbacks.TensorBoard(log_dir='./logs')
 
 # training
 model.fit(x_train, y_train,
           batch_size=batch_size,
           epochs=epochs,
           verbose=1,
-          validation_split=0.25)
+          validation_split=0.25,
+          callbacks=[tb_callback])
 
 # estimate
 score = model.evaluate(x_test, y_test, verbose=0)
 print('Test loss:', score[0])
 print('Test accuracy:', score[1])
+
+# show image
+plt.imshow(x_train_origin[0], cmap='gray')
+# plt.show()
+
+print(model.predict(np.expand_dims(x_train[0], axis=0)))
