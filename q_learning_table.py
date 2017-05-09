@@ -8,7 +8,7 @@ Q = np.zeros([env.observation_space.n, env.action_space.n])
 # Set learning parameters
 lr = .85
 y = .99
-num_episodes = 10000
+num_episodes = 2000
 # create lists to contain total rewards and steps per episode
 rList = []
 for i in range(num_episodes):
@@ -31,10 +31,11 @@ for i in range(num_episodes):
         Q[s, a] = Q[s, a] + lr * (r + y * np.max(Q[s1, :]) - Q[s, a])
         rAll += r
         s = s1
-        if d == True:
+        if d:
             break
 
     rList.append(rAll)
+    print(sum(rList)/(i+1))
 
 print('Total reward: ', sum(rList))
 # print('Q: ', Q)
