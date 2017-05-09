@@ -12,7 +12,7 @@ predict = tf.argmax(Qout, 1)
 
 nextQ = tf.placeholder(shape=[1, 4], dtype=tf.float32)
 loss = tf.reduce_sum(tf.square(nextQ - Qout))
-trainer = tf.train.GradientDescentOptimizer(learning_rate=0.1)
+trainer = tf.train.GradientDescentOptimizer(learning_rate=0.2)
 updateModel = trainer.minimize(loss)
 
 y = .99
@@ -57,5 +57,4 @@ with tf.Session() as sess:
                 e = 1. / ((i / 50) + 10)
                 break
         totalRewardsList.append(totalReward)
-
-    print('Avg. Reward: ', sum(totalRewardsList)/num_episodes)
+        print('Avg. reward: ', sum(totalRewardsList)/(1+i))
