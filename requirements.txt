@@ -5,3 +5,5 @@ keras
 matplotlib
 gym
 ipython
+pandas
+sklearn
