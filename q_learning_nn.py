@@ -58,4 +58,5 @@ with tf.Session() as sess:
                 e = 1. / ((i / 50) + 10)
                 break
         totalRewardsList.append(totalReward)
-        print('Avg. reward: ', sum(totalRewardsList)/(1+i))
+        if i%100 == 0:
+            print('Avg. reward: ', sum(totalRewardsList)/(1+i))
