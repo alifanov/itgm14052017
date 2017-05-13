@@ -16,7 +16,7 @@ trainer = tf.train.GradientDescentOptimizer(learning_rate=0.2)
 updateModel = trainer.minimize(loss)
 
 y = .99
-e = 0.99
+e = 0.5
 num_episodes = 5000
 
 totalRewardsList = []
@@ -45,6 +45,7 @@ with tf.Session() as sess:
 
             # Obtain maxQ' and set our target value for chosen action.
             maxQ1 = np.max(Qpredicted)
+
             targetQ = allQ
             targetQ[0, action[0]] = reward + y * maxQ1
 
